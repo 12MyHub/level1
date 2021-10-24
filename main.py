@@ -4,6 +4,7 @@ import cv2 as cv
 from io import BytesIO
 import numpy as np
 import uvicorn
+# import pathlib as Path
 import mediapipe as mp
 #Uninstalling tensorflow-cpu-2.6.0
 import time
@@ -284,7 +285,7 @@ async def predict_api(file: UploadFile = File(...)):
         x_size,y_size,col=image1.shape
         
         if x_size !=0 and y_size != 0:
-            # cv.imshow('frame', image1)
+            cv.imshow('frame', image1)
             output = cv.resize(image1,(180,180))
             output = np.expand_dims(output, 0)
             # predictions = [model.predict(output)]
@@ -293,14 +294,14 @@ async def predict_api(file: UploadFile = File(...)):
         else: 
             pass
             # cv.imshow('frame', frame)
-        # cv.waitKey(0)
+        cv.waitKey(0)
     # if key==ord('q') or key ==ord('Q'):    
     #     break
         # cv.destroyAllWindows()
 
     # cv.imshow('Image',open_cv_image)
     # cv.waitKey(0)
-    # cv.destroyAllWindows()
+    cv.destroyAllWindows()
     # 1 for open
     # 0 for closed
     return f"Label is : { label } "
