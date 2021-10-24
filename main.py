@@ -3,6 +3,7 @@ from PIL import Image
 import cv2 as cv
 from io import BytesIO
 import numpy as np
+import uvicorn
 import mediapipe as mp
 #Uninstalling tensorflow-cpu-2.6.0
 import time
@@ -303,3 +304,7 @@ async def predict_api(file: UploadFile = File(...)):
     # 1 for open
     # 0 for closed
     return f"Label is : { label } "
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, debug=True)
