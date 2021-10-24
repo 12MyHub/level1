@@ -4,15 +4,17 @@ import cv2 as cv
 from io import BytesIO
 import numpy as np
 import uvicorn
-# import pathlib as Path
 import mediapipe as mp
-#Uninstalling tensorflow-cpu-2.6.0
-import time
+from pathlib import Path
+import requests
 import utils, math
 import numpy as np
-# import keras
-# model = keras.models.load_model("my_model")
 app = FastAPI()
+import os
+
+FILE_PATH = 'upload'
+os.chdir(FILE_PATH)
+
 @app.get("/")
 def get_status():
     return {"status": "API is live & working!"}
@@ -285,23 +287,32 @@ async def predict_api(file: UploadFile = File(...)):
         x_size,y_size,col=image1.shape
         
         if x_size !=0 and y_size != 0:
-            cv.imshow('frame', image1)
+            # cv.imshow('frame', image1)
             output = cv.resize(image1,(180,180))
             output = np.expand_dims(output, 0)
+            cv.imwrite('image.jpg', image1)
+           
+            
+            path_img = Path.cwd()/'image.jpg'
+            
+            url = 'https://second-level.herokuapp.com/predict/image'
+            files = {'file': path_img.open(mode="rb")}
+            req = requests.post(f'{url}', files=files)
+           
             # predictions = [model.predict(output)]
             # label = np.argmax(predictions)
-            label="hello"
+            label=req.text
         else: 
             pass
             # cv.imshow('frame', frame)
-        cv.waitKey(0)
+        # cv.waitKey(0)
     # if key==ord('q') or key ==ord('Q'):    
     #     break
         # cv.destroyAllWindows()
 
     # cv.imshow('Image',open_cv_image)
     # cv.waitKey(0)
-    cv.destroyAllWindows()
+    # cv.destroyAllWindows()
     # 1 for open
     # 0 for closed
     return f"Label is : { label } "
