@@ -19,6 +19,7 @@ mediapipe==0.8.8.1
 numpy==1.21.3
 opencv-contrib-python==4.5.4.58
 opencv-python==4.5.4.58
+opencv-python-headless==4.5.4.58
 Pillow==8.4.0
 pipenv==2021.5.29
 platformdirs==2.4.0
